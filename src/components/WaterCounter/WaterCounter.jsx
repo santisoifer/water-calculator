@@ -2,31 +2,32 @@ import React, {useState} from "react";
 import WaterOperations from "./WaterOperations";
 
 function OperationButton(props){
-    const [waterG, setWaterG] = useState(0);
-    const [quantityToOperateG, setQuantityToOperateG] = useState(0);
+    const [glasses, setGlasses] = useState(0);
+    const [glassesToOperate, setGlassesToOperate] = useState(0);
     const [waterMl, setWaterMl] = useState(0);
     const [quantityToOperateMl, setQuantityToOperateMl] = useState(0);
-
     
-    // For Glasses (G):
+    // For Glasses:
     
     function getInputG(event){
         let value = Number(event.target.value);
-        setQuantityToOperateG(value);
+        setGlassesToOperate(value);
     }
     
-    function sumWaterG(){
-        setWaterG(waterG + quantityToOperateG);
-        setQuantityToOperateG(0);
+    function sumGlasses(){
+        setGlasses(glasses + glassesToOperate);
+        setWaterMl(waterMl + glassesToOperate * 250);
+        setGlassesToOperate(0);
     }
     
-    function subtractWaterG(){
-        if (waterG > 0) {
-            setWaterG(waterG - quantityToOperateG);
-            setQuantityToOperateG(0);
+    function subtractGlasses(){
+        if (glasses > 0) {
+            setGlasses(glasses - glassesToOperate);
+            setWaterMl(waterMl - glassesToOperate * 250);
+            setGlassesToOperate(0);
         }
     }
-    
+
     //For ml (Ml):
 
     function getInputMl(event){
@@ -46,20 +47,22 @@ function OperationButton(props){
         }
     }
 
+    //For changing units (ml, l or oz):
     return <div>
         {/* Glasses: */}
-        <h2>{waterG} glasses</h2>
+        <h2>{glasses} glasses</h2>
         <p>(of 250ml each one)</p>
         
         <WaterOperations
         getInput={getInputG}
-        quantity={quantityToOperateG}
-        sumWater={sumWaterG}
-        subtractWater={subtractWaterG}
+        quantity={glassesToOperate}
+        sumWater={sumGlasses}
+        subtractWater={subtractGlasses}
         />
         
         {/* ml: */}
-        <h2>{waterMl} ml</h2>
+        {/* //TODO: Hover para cambiar a pointer */}
+        <h2 className="">{waterMl} ml</h2>
 
         <WaterOperations
         getInput={getInputMl}
