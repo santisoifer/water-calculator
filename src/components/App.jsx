@@ -1,6 +1,6 @@
 import React from "react";
 import TopButton from "./TopButton";
-import WaterCounter from "./WaterCounter";
+import WaterCounter from "./WaterCounter/WaterCounter";
 
 
 function App(props){
