@@ -4,12 +4,13 @@ function WaterOperations(props){
     return (
         <div>
         <input
+        name={props.name}
         onChange={props.getInput}
         type="number"
         value={props.quantity} 
         />
-        <button className="operationButtons" onClick={props.sumWater}>+</button>
-        <button className="operationButtons" onClick={props.subtractWater}>-</button>
+        <button name={props.addButtonName} className="operationButtons" onClick={props.addWater}>+</button>
+        <button name={props.subButtonName} className="operationButtons" onClick={props.subtractWater}>-</button>
 </div>
     )
 }

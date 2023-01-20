@@ -1,113 +1,93 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import WaterOperations from "./WaterOperations";
 
-function OperationButton(props){
+function OperationButton(props) {
 
     //! refactor (muy necesario). empezar de vuelta (solo la lógica, no el diseño)
 
-    //? BUG: se pueden sumar numeros negativos
+    //? BUG: hay veces que tomas vasos negativos (????). lo mismo con ml
 
-    //TODO: Cambiar la forma en la que me organizo los numeros (vosos y ml):
-    // let water = {
-    //     glasses: 0,
-    //     howManyGlasses: 0,
-    //     waterMl: 0,
-    //     howManyMl:0
-    // }
-    // Tambien puedo desestructurar el obj, para que pueda acceder a la var mas facil
+    const [water, setWater] = useState({
+        glasses: 0,
+        glassesToOperate: 0,
+        waterMl: 0,
+        mlToOperate: 0
+    });
 
-    //TODO: funcion para sumar y restar vasos, que tambien sirva para sumar y restar en cantidades de agua (como ml, oz, l)
+    const { glasses: Glasses, glassesToOperate, waterMl: WaterMl, mlToOperate } = water;
 
-
-
-    const [glasses, setGlasses] = useState(0);
-    const [glassesToOperate, setGlassesToOperate] = useState(0);
-    const [waterMl, setWaterMl] = useState(0);
-    const [quantityToOperateMl, setQuantityToOperateMl] = useState(0);
-    
-    // For Glasses:
-    
-    function getInputG(event){
-        let value = Number(event.target.value);
-        setGlassesToOperate(value);
-    }
-    
-    // function(sumOrSub, glassesOrMl)
-    
-    function sumGlasses(){
-        if (glassesToOperate !== 0) {
-            setGlasses(glasses + glassesToOperate);
-            setWaterMl(waterMl + glassesToOperate * 250);
-            setGlassesToOperate(0);
-        } else {
-            setGlasses(glasses + 1);
-            setWaterMl(waterMl + 250);
+    function getInput(event) {
+        if (event.target.name === "glassesInput") {
+            const glassesToOperate = Number(event.target.value);
+            if (glassesToOperate >= 0) {
+                setWater(prevValue => { return { ...prevValue, glassesToOperate } });
+            }
         }
-    }
-    
-
-    function subtractGlasses(){
-        if (glasses > 0) {
-            if (glassesToOperate !== 0) {
-                setGlasses(glasses - glassesToOperate);
-                setWaterMl(waterMl - glassesToOperate * 250);
-                setGlassesToOperate(0);
-            } else {
-                setGlasses(glasses - 1);
-                setWaterMl(waterMl - 250);
+        else if (event.target.name === "mlInput") {
+            const mlToOperate = Number(event.target.value);
+            if (mlToOperate >= 0) {
+                setWater(prevValue => { return { ...prevValue, mlToOperate } });
             }
         }
     }
 
-    //For ml (Ml):
+    function operateWater(event) {
+        const name = event.target.name;
 
-    function getInputMl(event){
-        let value = Number(event.target.value); //Agarro el value del input
-        setQuantityToOperateMl(value);
-    }
-    
-    function sumWaterMl(){
-        if (quantityToOperateMl !== 0) {
-            setWaterMl(waterMl + quantityToOperateMl);
-            setQuantityToOperateMl(0);
-        } else {
-            setWaterMl(waterMl + 100);
+        switch (name) {
+            // For glasses:
+            case "addGlassesButton":
+                const addGlasses = Glasses + glassesToOperate;
+                const addMlByGlasses = WaterMl + glassesToOperate * 250;
+                setWater(prevValue => ({ ...prevValue, glasses: addGlasses, glassesToOperate: 0, waterMl:addMlByGlasses}));
+                break;
+                case "subGlassesButton":
+                    const subGlasses = Glasses - glassesToOperate;
+                    const subMlByGlasses = WaterMl - glassesToOperate * 250;
+                setWater(prevValue => ({ ...prevValue, glasses: subGlasses, glassesToOperate: 0, waterMl:subMlByGlasses }));
+                break;
+            // For ml:
+            case "addMlButton":
+                const addMl = WaterMl + mlToOperate;
+                setWater(prevValue => ({ ...prevValue, waterMl: addMl, mlToOperate: 0 }));
+                break;
+            case "subMlButton":
+                const subMl = WaterMl - mlToOperate;
+                setWater(prevValue => ({ ...prevValue, waterMl: subMl, mlToOperate: 0 }));
+                break;
+
+            default:
+                console.log("Error: None of the buttons match with expected results");
+                break;
         }
-
-    }
-    
-    function subtractWaterMl(){
-        if (waterMl > 0) {
-            if (quantityToOperateMl !== 0) {
-                setWaterMl(waterMl - quantityToOperateMl);
-                setQuantityToOperateMl(0);
-            } else {
-                setWaterMl(waterMl - 100);
-            }
-        }
     }
 
-    //For changing units (ml, l or oz):
     return <div className="water-counter">
         {/* Glasses: */}
-        <h2>{glasses} glasses</h2>
+        <h2>{Glasses} glasses</h2>
         <p>(of 250ml each one)</p>
-        
-        <WaterOperations
-        getInput={getInputG}
-        quantity={glassesToOperate}
-        sumWater={sumGlasses}
-        subtractWater={subtractGlasses}
-        />
-        
-        {/* ml: */}
-        <h2 className="changeUnits">{waterMl} ml</h2>
 
         <WaterOperations
-        getInput={getInputMl}
-        quantity={quantityToOperateMl}
-        sumWater={sumWaterMl}
-        subtractWater={subtractWaterMl}
+            name="glassesInput"
+            addButtonName="addGlassesButton"
+            subButtonName="subGlassesButton"
+            getInput={getInput}
+            quantity={glassesToOperate}
+            addWater={operateWater}
+            subtractWater={operateWater}
+        />
+
+        {/* ml: */}
+        <h2 className="changeUnits">{WaterMl} ml</h2>
+
+        <WaterOperations
+            name="mlInput"
+            addButtonName="addMlButton"
+            subButtonName="subMlButton"
+            getInput={getInput}
+            quantity={mlToOperate}
+            addWater={operateWater}
+            subtractWater={operateWater}
         />
     </div>
 }
