@@ -2,13 +2,14 @@ import React from "react";
 
 function WaterOperations(props){
     return (
-        <div><input
+        <div>
+        <input
         onChange={props.getInput}
         type="number"
         value={props.quantity} 
         />
-        <button onClick={props.sumWater}>+</button>
-        <button onClick={props.subtractWater}>-</button>
+        <button className="operationButtons" onClick={props.sumWater}>+</button>
+        <button className="operationButtons" onClick={props.subtractWater}>-</button>
 </div>
     )
 }

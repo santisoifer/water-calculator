@@ -1,0 +1,86 @@
+/* General settings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+h2 {
+    padding: 10px 10px;
+    margin-top: 9px;
+    font-size: 1.9rem;
+}
+
+.container {
+    max-width: 1300px;
+    margin: auto;
+}
+
+/* Background */
+body {
+    background: linear-gradient(270deg, #00dbff, #269ade);
+    background-size: 400% 400%;
+    
+    animation: BackgroundRotation 15s ease infinite;
+    text-align: center; 
+}
+
+@keyframes BackgroundRotation {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 0%}
+    100%{background-position:0% 50%}
+}
+
+/* Top Part (user & setting buttons) */
+.setButton{
+    text-decoration: none;
+    padding: 7px;
+}
+    
+.topButtons-container{
+    text-align: right;
+    margin-bottom: 30px;
+}
+
+/* Inputs */
+
+input[type="number"]{
+    width: 75px;
+    height: 45px;
+    text-align: center;
+    border-radius: 5px;
+    border: none;
+    margin: 7px auto;
+    display: block;
+}
+
+input[type="number"]:focus{
+    outline: none;
+    border: none;
+}
+
+/* ( + ) & ( - ) buttons */
+
+.operationButtons{
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin: 9px;
+    background-color: rgba(255, 255, 255, 0.351);
+}
+
+.operationButtons:hover{
+    cursor: pointer;
+}
+
+/* The h2 that changes between units */
+
+.changeUnits {
+    display: inline;
+}
+
+.changeUnits:hover{
+    cursor: pointer;
+}
