@@ -13,6 +13,13 @@ h2 {
 }
 
 .container {
+    height: 100vh;
+    width: 100vw;
+    
+    display: grid;
+    grid-template-rows: repeat(6, 1fr);
+    gap: 10px;
+
     max-width: 1300px;
     margin: auto;
 }
@@ -21,9 +28,9 @@ h2 {
 body {
     background: linear-gradient(270deg, #00dbff, #269ade);
     background-size: 400% 400%;
-    
     animation: BackgroundRotation 15s ease infinite;
-    text-align: center; 
+    text-align: center;
+
 }
 
 @keyframes BackgroundRotation {
@@ -33,14 +40,9 @@ body {
 }
 
 /* Top Part (user & setting buttons) */
-.setButton{
-    text-decoration: none;
-    padding: 7px;
-}
-    
-.topButtons-container{
-    text-align: right;
-    margin-bottom: 30px;
+.heading{
+    align-self: center;
+    font-size: 2.3rem;
 }
 
 /* Inputs */
@@ -75,12 +77,10 @@ input[type="number"]:focus{
     cursor: pointer;
 }
 
-/* The h2 that changes between units */
-
-.changeUnits {
-    display: inline;
+.water-counter{
+    grid-row: 2 / 7;
 }
 
-.changeUnits:hover{
-    cursor: pointer;
-}
+/* TODO:
+2- escribir README.md
+ */
