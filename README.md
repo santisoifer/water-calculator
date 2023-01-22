@@ -16,6 +16,11 @@ npm install
 ```bash
 npm start
 ```
+
+## Project status
+Acctually, the proyect is abandonaded, but you can always contribute or make changes (see the liscene in "LICENSE.txt")
+
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first
