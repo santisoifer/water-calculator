@@ -2,11 +2,6 @@ import React, { useState } from "react";
 import WaterOperations from "./WaterOperations";
 
 function OperationButton(props) {
-
-    //! refactor (muy necesario). empezar de vuelta (solo la lógica, no el diseño)
-
-    //? BUG: hay veces que tomas vasos negativos (????). lo mismo con ml
-
     const [water, setWater] = useState({
         glasses: 0,
         glassesToOperate: 0,
@@ -33,18 +28,20 @@ function OperationButton(props) {
 
     function operateWater(event) {
         const name = event.target.name;
-
         switch (name) {
+
             // For glasses:
             case "addGlassesButton":
                 const addGlasses = Glasses + glassesToOperate;
                 const addMlByGlasses = WaterMl + glassesToOperate * 250;
                 setWater(prevValue => ({ ...prevValue, glasses: addGlasses, glassesToOperate: 0, waterMl:addMlByGlasses}));
                 break;
-                case "subGlassesButton":
-                    const subGlasses = Glasses - glassesToOperate;
-                    const subMlByGlasses = WaterMl - glassesToOperate * 250;
-                setWater(prevValue => ({ ...prevValue, glasses: subGlasses, glassesToOperate: 0, waterMl:subMlByGlasses }));
+            case "subGlassesButton":
+                const subGlasses = Glasses - glassesToOperate;
+                const subMlByGlasses = WaterMl - glassesToOperate * 250;
+                if (subGlasses >= 0 && subMlByGlasses >= 0) {
+                    setWater(prevValue => ({ ...prevValue, glasses: subGlasses, glassesToOperate: 0, waterMl:subMlByGlasses }));
+                }
                 break;
             // For ml:
             case "addMlButton":
@@ -53,7 +50,9 @@ function OperationButton(props) {
                 break;
             case "subMlButton":
                 const subMl = WaterMl - mlToOperate;
-                setWater(prevValue => ({ ...prevValue, waterMl: subMl, mlToOperate: 0 }));
+                if (subMl >= 0) {
+                    setWater(prevValue => ({ ...prevValue, waterMl: subMl, mlToOperate: 0 }));
+                }
                 break;
 
             default:
